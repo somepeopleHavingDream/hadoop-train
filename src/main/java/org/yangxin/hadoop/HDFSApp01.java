@@ -10,6 +10,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * 使用HDFS API完成wordcount统计
@@ -28,12 +29,18 @@ import java.util.Map;
 public class HDFSApp01 {
 
     public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
+        Properties properties = ParamUtil.getProperties();
+        String inputPath = properties.getProperty(Constant.INPUT_PATH);
+        String hdfsUri = properties.getProperty(Constant.HDFS_URI);
+        String outputPath = properties.getProperty(Constant.OUTPUT_PATH);
+        String outputFile = properties.getProperty(Constant.OUTPUT_FILE);
+        String hdfsUsername = properties.getProperty(Constant.HDFS_USERNAME);
+
         // 1）读取HDFS上的文件 ==> HDFS API
-        Path input = new Path("/hdfsapi/test/README.md");
+        Path input = new Path(inputPath);
 
         // 获取要操作的HDFS文件系统
-        FileSystem fileSystem = FileSystem.get(new URI("hdfs://192.168.1.103:8020"), new Configuration(),
-                "root");
+        FileSystem fileSystem = FileSystem.get(new URI(hdfsUri), new Configuration(), hdfsUsername);
         RemoteIterator<LocatedFileStatus> remoteIterator = fileSystem.listFiles(input, false);
 
         Mapper mapper = new WordCountMapper();
@@ -59,8 +66,8 @@ public class HDFSApp01 {
         Map<Object, Object> contextMap = context.getCacheMap();
 
         // 4）将结果输出到HDFS ==> HDFS API
-        Path output = new Path("/hdfsapi/output/");
-        FSDataOutputStream fsDataOutputStream = fileSystem.create(new Path(output, "wc.out"));
+        Path output = new Path(outputPath);
+        FSDataOutputStream fsDataOutputStream = fileSystem.create(new Path(output, outputFile));
         // 将第三步缓存中的内容输出到out中去
         for (Map.Entry<Object, Object> entry : contextMap.entrySet()) {
             fsDataOutputStream.write((entry.getKey().toString() + "\t" + entry.getValue() + "\n")
