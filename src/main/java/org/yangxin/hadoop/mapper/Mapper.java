@@ -1,4 +1,6 @@
-package org.yangxin.hadoop;
+package org.yangxin.hadoop.mapper;
+
+import org.yangxin.hadoop.Context;
 
 /**
  * @author yangxin

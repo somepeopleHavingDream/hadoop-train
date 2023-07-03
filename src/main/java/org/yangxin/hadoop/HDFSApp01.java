@@ -2,6 +2,7 @@ package org.yangxin.hadoop;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
+import org.yangxin.hadoop.mapper.Mapper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
