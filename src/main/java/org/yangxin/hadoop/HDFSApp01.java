@@ -28,13 +28,14 @@ import java.util.Properties;
  */
 public class HDFSApp01 {
 
-    public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException {
+    public static void main(String[] args) throws URISyntaxException, IOException, InterruptedException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         Properties properties = ParamUtil.getProperties();
         String inputPath = properties.getProperty(Constant.INPUT_PATH);
         String hdfsUri = properties.getProperty(Constant.HDFS_URI);
         String outputPath = properties.getProperty(Constant.OUTPUT_PATH);
         String outputFile = properties.getProperty(Constant.OUTPUT_FILE);
         String hdfsUsername = properties.getProperty(Constant.HDFS_USERNAME);
+        String mapperClass = properties.getProperty(Constant.MAPPER_CLASS);
 
         // 1）读取HDFS上的文件 ==> HDFS API
         Path input = new Path(inputPath);
@@ -43,7 +44,9 @@ public class HDFSApp01 {
         FileSystem fileSystem = FileSystem.get(new URI(hdfsUri), new Configuration(), hdfsUsername);
         RemoteIterator<LocatedFileStatus> remoteIterator = fileSystem.listFiles(input, false);
 
-        Mapper mapper = new WordCountMapper();
+        Class<?> clazz = Class.forName(mapperClass);
+        Mapper mapper = (Mapper) clazz.newInstance();
+
         Context context = new Context();
 
         while (remoteIterator.hasNext()) {

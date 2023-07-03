@@ -17,4 +17,6 @@ public interface Constant {
     String HDFS_URI = "HDFS_URI";
 
     String HDFS_USERNAME = "HDFS_USERNAME";
+
+    String MAPPER_CLASS = "MAPPER_CLASS";
 }
