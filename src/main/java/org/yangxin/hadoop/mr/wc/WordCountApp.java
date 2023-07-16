@@ -1,6 +1,7 @@
 package org.yangxin.hadoop.mr.wc;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
@@ -9,6 +10,8 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * 使用MapReduce统计HDFS上的文件对应的词频
@@ -22,7 +25,7 @@ import java.io.IOException;
  */
 public class WordCountApp {
 
-    public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException, URISyntaxException {
         System.setProperty("HADOOP_USER_NAME", "root");
 
         Configuration configuration = new Configuration();
@@ -46,9 +49,16 @@ public class WordCountApp {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
 
+        // 如果输出目录已经存在，则先删除
+        FileSystem fileSystem = FileSystem.get(new URI("hdfs://192.168.1.102:8020"), configuration, "root");
+        Path outputPath = new Path("/wordcount/output");
+        if (fileSystem.exists(outputPath)) {
+            fileSystem.delete(outputPath, true);
+        }
+
         // 设置Job对应的参数：作业输入和输出的路径
         FileInputFormat.setInputPaths(job, new Path("/wordcount/input"));
-        FileOutputFormat.setOutputPath(job, new Path("/wordcount/output"));
+        FileOutputFormat.setOutputPath(job, outputPath);
 
         // 提交job
         boolean result = job.waitForCompletion(true);
