@@ -1,8 +1,8 @@
-package org.yangxin.hadoop;
+package org.yangxin.hadoop.hdfs;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
-import org.yangxin.hadoop.mapper.Mapper;
+import org.yangxin.hadoop.hdfs.mapper.Mapper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,9 +15,9 @@ import java.util.Properties;
 
 /**
  * 使用HDFS API完成wordcount统计
- *
+ * <p>
  * 需求：统计HDFS上的文件的wc，然后将统计结果输出到HDFS
- *
+ * <p>
  * 功能拆解：
  * 1）读取HDFS上的文件 ==> HDFS API
  * 2）业务处理（词频统计）：对文件中的每一行数据都要进行业务处理（按照分隔符分割） ==> Mapper

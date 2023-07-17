@@ -1,6 +1,6 @@
-package org.yangxin.hadoop.mapper;
+package org.yangxin.hadoop.hdfs.mapper;
 
-import org.yangxin.hadoop.Context;
+import org.yangxin.hadoop.hdfs.Context;
 
 import java.util.Objects;
 

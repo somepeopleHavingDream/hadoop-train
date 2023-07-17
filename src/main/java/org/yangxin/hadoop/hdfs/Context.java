@@ -1,4 +1,4 @@
-package org.yangxin.hadoop;
+package org.yangxin.hadoop.hdfs;
 
 import java.util.HashMap;
 import java.util.Map;
