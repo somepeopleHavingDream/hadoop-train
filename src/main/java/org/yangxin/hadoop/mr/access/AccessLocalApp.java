@@ -1,6 +1,7 @@
 package org.yangxin.hadoop.mr.access;
 
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
@@ -26,7 +27,7 @@ public class AccessLocalApp {
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(Access.class);
 
-        job.setOutputKeyClass(Text.class);
+        job.setOutputKeyClass(NullWritable.class);
         job.setOutputValueClass(Access.class);
 
         FileInputFormat.setInputPaths(job, new Path("access/input"));

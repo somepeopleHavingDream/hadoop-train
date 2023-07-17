@@ -1,5 +1,6 @@
 package org.yangxin.hadoop.mr.access;
 
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
@@ -9,10 +10,10 @@ import java.io.IOException;
  * @author yangxin
  * 2023/7/17 21:08
  */
-public class AccessReducer extends Reducer<Text, Access, Text, Access> {
+public class AccessReducer extends Reducer<Text, Access, NullWritable, Access> {
 
     @Override
-    protected void reduce(Text key, Iterable<Access> values, Reducer<Text, Access, Text, Access>.Context context) throws IOException, InterruptedException {
+    protected void reduce(Text key, Iterable<Access> values, Reducer<Text, Access, NullWritable, Access>.Context context) throws IOException, InterruptedException {
         long ups = 0;
         long downs = 0;
 
@@ -21,6 +22,6 @@ public class AccessReducer extends Reducer<Text, Access, Text, Access> {
             downs += access.getDown();
         }
 
-        context.write(key, new Access(key.toString(), ups, downs));
+        context.write(NullWritable.get(), new Access(key.toString(), ups, downs));
     }
 }
