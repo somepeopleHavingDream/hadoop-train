@@ -28,4 +28,9 @@ public class LogParserTest {
         }
     }
 
+    @Test
+    public void test02() {
+        String pageId = ContentUtils.getPageId("http://www.yihaodian.com/cms/view.do?topicId=19004");
+        System.out.println(pageId);
+    }
 }
