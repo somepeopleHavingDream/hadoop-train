@@ -45,4 +45,31 @@ public class LogParser {
 
         return info;
     }
+
+    public Map<String, String> parseV2(String log) {
+        if (StringUtils.isBlank(log)) {
+            return Collections.emptyMap();
+        }
+
+        Map<String, String> info = new HashMap<>();
+
+        String[] split = log.split("\t");
+        String ip = split[0];
+        String country = split[1];
+        String province = split[2];
+        String city = split[3];
+        String url = split[4];
+        String time = split[5];
+        String pageId = split[6];
+
+        info.put("ip", ip);
+        info.put("country", country);
+        info.put("province", province);
+        info.put("city", city);
+        info.put("url", url);
+        info.put("time", time);
+        info.put("pageId", pageId);
+
+        return info;
+    }
 }
