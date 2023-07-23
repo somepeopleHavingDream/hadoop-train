@@ -24,6 +24,7 @@ public class LogParser {
         String[] split = log.split("\001");
         String ip = split[13];
         String url = split[1];
+        String time = split[17];
         IPParser.RegionInfo regionInfo = ipParser.analyseIp(ip);
 
         String country = "-";
@@ -40,6 +41,7 @@ public class LogParser {
         info.put("province", province);
         info.put("city", city);
         info.put("url", url);
+        info.put("time", time);
 
         return info;
     }
