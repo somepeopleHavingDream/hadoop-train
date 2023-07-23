@@ -26,7 +26,7 @@ public class PVStatV2App {
         Configuration configuration = new Configuration();
 
         FileSystem fileSystem = FileSystem.get(configuration);
-        Path outputPath = new Path("output/v2/pvstat");
+        Path outputPath = new Path(args[1]);
         if (fileSystem.exists(outputPath)) {
             fileSystem.delete(outputPath, true);
         }
@@ -43,7 +43,7 @@ public class PVStatV2App {
         job.setOutputKeyClass(NullWritable.class);
         job.setOutputValueClass(LongWritable.class);
 
-        FileInputFormat.setInputPaths(job, new Path("input/etl"));
+        FileInputFormat.setInputPaths(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, outputPath);
 
         job.waitForCompletion(true);

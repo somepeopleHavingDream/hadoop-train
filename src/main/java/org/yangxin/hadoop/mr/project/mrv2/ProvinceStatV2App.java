@@ -25,7 +25,7 @@ public class ProvinceStatV2App {
         Configuration configuration = new Configuration();
 
         FileSystem fileSystem = FileSystem.get(configuration);
-        Path outputPath = new Path("output/v2/provincestat");
+        Path outputPath = new Path(args[1]);
         if (fileSystem.exists(outputPath)) {
             fileSystem.delete(outputPath, true);
         }
@@ -42,7 +42,7 @@ public class ProvinceStatV2App {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(LongWritable.class);
 
-        FileInputFormat.setInputPaths(job, new Path("input/etl"));
+        FileInputFormat.setInputPaths(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, outputPath);
 
         job.waitForCompletion(true);
