@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class ContentUtils {
 
     public static String getPageId(String url) {
-        String pageId = "";
+        String pageId = "-";
         if (StringUtils.isBlank(url)) {
             return pageId;
         }
