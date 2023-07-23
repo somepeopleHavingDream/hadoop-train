@@ -1,6 +1,7 @@
 package org.yangxin.hadoop.mr.project.mr;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.NullWritable;
@@ -24,6 +25,12 @@ public class PVStatApp {
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
         Configuration configuration = new Configuration();
 
+        FileSystem fileSystem = FileSystem.get(configuration);
+        Path outputPath = new Path("output/v1/pvstat");
+        if (fileSystem.exists(outputPath)) {
+            fileSystem.delete(outputPath, true);
+        }
+
         Job job = Job.getInstance(configuration);
         job.setJarByClass(PVStatApp.class);
 
@@ -37,7 +44,7 @@ public class PVStatApp {
         job.setOutputValueClass(LongWritable.class);
 
         FileInputFormat.setInputPaths(job, new Path("input/raw/trackinfo_20130721.data"));
-        FileOutputFormat.setOutputPath(job, new Path("output/v1/pvstat"));
+        FileOutputFormat.setOutputPath(job, outputPath);
 
         job.waitForCompletion(true);
     }
